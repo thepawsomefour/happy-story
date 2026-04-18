@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy – Der Anfang von allem</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf9f4;
+    --teal: #2e6070;
+    --teal-l: #5fa8b8;
+    --teal-ll: #cde8f2;
+    --orange: #e8833a;
+    --orange-d:#c4622a;
+    --yellow: #f5c842;
+    --yellow-l:#fff8dc;
+    --green: #4a8a5c;
+    --green-l: #d4edda;
+    --text: #2e2a24;
+    --muted: #7a7068;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Lora', Georgia, serif;
+    color: var(--text);
+  }
+
+  /* ===== COVER ===== */
+  .cover {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    overflow: hidden;
+    background: linear-gradient(155deg, #0d2d3a 0%, #1e5c4a 35%, #2e8060 60%, #e8c040 100%);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 85%, rgba(232,192,64,0.45) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(95,168,184,0.3) 0%, transparent 50%);
+  }
+
+  /* Italy stars/fireflies */
+  .firefly {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: var(--yellow);
+    border-radius: 50%;
+    opacity: 0;
+    animation: glow 3s ease-in-out infinite;
+  }
+  @keyframes glow {
+    0%,100%{opacity:0; transform:scale(1);}
+    50%{opacity:0.9; transform:scale(1.8);}
+  }
+
+  .cover-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 580px;
+  }
+
+  .cover-icon {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 14px;
+    animation: float 3.5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-14px);}
+  }
+
+  .cover-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 20px;
+    padding: 5px 18px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.82);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .cover-pretitle {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .cover-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: clamp(3.2rem, 10vw, 5.5rem);
+    color: white;
+    line-height: 1.0;
+    text-shadow: 0 6px 30px rgba(0,0,0,0.4);
+    margin-bottom: 10px;
+  }
+
+  .cover-title .sub {
+    display: block;
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    color: var(--yellow);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  .cover-tagline {
+    font-style: italic;
+    font-size: 1.08rem;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.7;
+    margin: 16px 0 26px;
+  }
+
+  .cover-series {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: rgba(0,0,0,0.28);
+    border-radius: 30px;
+    padding: 8px 20px;
+    color: var(--yellow);
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.8rem;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 26px; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.4);
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.73rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%,100%{transform:translateX(-50%) translateY(0);}
+    50%{transform:translateX(-50%) translateY(7px);}
+  }
+
+  /* ===== STORY ===== */
+  .story-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 28px 80px;
+  }
+
+  .chapter {
+    margin-bottom: 64px;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .chapter-label {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+
+  .chapter-icon { font-size: 2.2rem; display:block; margin-bottom:10px; }
+
+  .chapter-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: var(--teal);
+    margin-bottom: 22px;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    margin-bottom: 18px;
+    color: #3a3228;
+  }
+  p:last-child { margin-bottom: 0; }
+
+  .dropcap::first-letter {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 3.8rem;
+    float: left;
+    line-height: 0.75;
+    margin-right: 6px;
+    margin-top: 6px;
+    color: var(--orange);
+  }
+
+  /* Italy banner */
+  .italy-banner {
+    background: linear-gradient(135deg, #1a4a3a 0%, #2e7a5a 50%, #3a9a70 100%);
+    border-radius: 20px;
+    padding: 30px 26px;
+    margin: 32px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .italy-banner::before {
+    content: '🇮🇹';
+    position: absolute;
+    font-size: 110px;
+    opacity: 0.07;
+    top: -15px; right: -10px;
+  }
+  .italy-banner p {
+    color: rgba(255,255,255,0.9);
+    font-style: italic;
+    font-size: 1.08rem;
+    line-height: 1.75;
+    position: relative; z-index:1;
+    margin: 0;
+  }
+  .italy-banner .banner-icon {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  /* Notice / flyer moment */
+  .flyer-moment {
+    background: white;
+    border: 2px dashed #c8b89a;
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin: 28px 0;
+    position: relative;
+  }
+  .flyer-moment::before {
+    content: '📋';
+    position: absolute;
+    top: -18px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    background: var(--cream);
+    padding: 0 8px;
+  }
+  .flyer-moment .flyer-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--orange-d);
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .flyer-moment p {
+    font-size: 0.97rem;
+    color: #444;
+    line-height: 1.75;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Boxes */
+  .box-teal {
+    background: linear-gradient(135deg,#e8f4f8,#cde8f2);
+    border-left: 4px solid var(--teal-l);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #1e4a5c;
+  }
+  .box-orange {
+    background: linear-gradient(135deg,#fef4e8,#fde8cc);
+    border-left: 4px solid var(--orange);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #6b2e10;
+  }
+  .box-yellow {
+    background: linear-gradient(135deg,#fffae8,#fef2c0);
+    border-left: 4px solid var(--yellow);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #5a4400;
+  }
+  .box-green {
+    background: linear-gradient(135deg,#eef6ee,#d4edda);
+    border-left: 4px solid var(--green);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #1e4a28;
+  }
+
+  /* Happy name reveal */
+  .name-reveal {
+    text-align: center;
+    margin: 32px 0;
+    padding: 32px 20px;
+    background: linear-gradient(135deg, var(--teal) 0%, #1e4a5c 100%);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .name-reveal::before {
+    content: '✨';
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.07;
+    top: -20px; left: -10px;
+  }
+  .name-reveal .label {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: var(--teal-l);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .name-reveal .big-name {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 4rem;
+    color: var(--yellow);
+    line-height: 1;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+  }
+  .name-reveal p {
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+    font-size: 1rem;
+    max-width: 380px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Happy trait card */
+  .happy-card {
+    background: linear-gradient(145deg,#e8f4f8,#cce8f0);
+    border: 2px solid #a0d4e8;
+    border-radius: 20px;
+    padding: 26px 22px;
+    text-align: center;
+    margin: 28px 0;
+  }
+  .happy-card .icon { font-size: 3.5rem; display:block; margin-bottom:10px; }
+  .happy-card .name {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .happy-card .traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .trait-pill {
+    background: white;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.85rem;
+    color: var(--teal);
+    font-style: italic;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .divider {
+    text-align: center;
+    color: var(--yellow);
+    font-size: 1.3rem;
+    margin: 40px 0;
+    letter-spacing: 10px;
+    opacity: 0.6;
+  }
+
+  /* End */
+  .end-wrap {
+    background: linear-gradient(155deg,#0d2d3a 0%,#1e5c4a 40%,#e8c040 100%);
+    border-radius: 28px;
+    padding: 44px 32px;
+    text-align: center;
+    margin-top: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .end-wrap::before {
+    content:'🐾';
+    position:absolute;
+    font-size:140px;
+    opacity:0.06;
+    bottom:-20px; right:-20px;
+  }
+  .end-wrap .big { font-size:3.5rem; display:block; margin-bottom:14px; }
+  .end-wrap h2 {
+    font-family:'Baloo 2', cursive;
+    font-weight:800;
+    font-size:1.9rem;
+    color:var(--yellow);
+    margin-bottom:14px;
+  }
+  .end-wrap p {
+    color:rgba(255,255,255,0.88);
+    max-width:440px;
+    margin:0 auto 14px;
+    font-style:italic;
+    font-size:1rem;
+    line-height:1.8;
+  }
+  .pawsome-tag {
+    display:inline-block;
+    background:rgba(255,255,255,0.14);
+    border:2px solid rgba(255,255,255,0.28);
+    border-radius:30px;
+    padding:8px 24px;
+    font-family:'Baloo 2',cursive;
+    font-weight:800;
+    font-size:1.05rem;
+    color:white;
+    letter-spacing:1px;
+    margin-top:10px;
+  }
+  .pawsome-tag span { color:var(--yellow); }
+
+  .band-one-note {
+    background: rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin: 18px auto 0;
+    max-width: 420px;
+  }
+  .band-one-note p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.75);
+    font-style: normal;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <div class="firefly" style="top:20%;left:15%;animation-delay:0s;"></div>
+  <div class="firefly" style="top:60%;left:80%;animation-delay:1.2s;"></div>
+  <div class="firefly" style="top:35%;left:70%;animation-delay:0.6s;"></div>
+  <div class="firefly" style="top:75%;left:25%;animation-delay:2s;"></div>
+  <div class="firefly" style="top:15%;left:55%;animation-delay:1.8s;"></div>
+  <div class="firefly" style="top:50%;left:40%;animation-delay:0.3s;"></div>
+
+  <div class="cover-content">
+    <span class="cover-icon">🐱</span>
+    <div class="cover-badge">Band 1 · Der Anfang von allem</div>
+    <div class="cover-pretitle">Die Geschichte von</div>
+    <div class="cover-title">
+      Happy
+      <span class="sub">Wie alles begann</span>
+    </div>
+    <div class="cover-tagline">
+      Ein Zettel im Stiegenhaus.<br>
+      Ein kleines Katzenbaby auf einem Foto.<br>
+      Und eine Familie, die wusste: <em>Das ist er.</em>
+    </div>
+    <div class="cover-series">🐾 &nbsp; Teil 1 der Geschichte von <strong>ThePawsomeFour</strong></div>
+  </div>
+  <div class="scroll-hint">▼ &nbsp; Geschichte lesen &nbsp; ▼</div>
+</div>
+
+<!-- STORY -->
+<div class="story-wrap">
+
+  <!-- Kapitel 1: Italien -->
+  <div class="chapter" id="ch1">
+    <span class="chapter-icon">🇮🇹</span>
+    <div class="chapter-label">Kapitel 1</div>
+    <div class="chapter-title">Eine Reise, ein Name und ein Gefühl</div>
+
+    <p class="dropcap">Es war ein warmer Sommerurlaub in Italien. Die Familie genoss die Sonne, das Essen, die Leichtigkeit der Ferien — und jeden Abend gab es Musik, Tanz und einen Animateur, der die Gäste zum Lachen brachte. Er hieß Happy.</p>
+
+    <div class="italy-banner">
+      <span class="banner-icon">☀️</span>
+      <p>Nicht weil er so hieß auf dem Ausweis. Sondern weil er einfach so war — strahlend, herzlich, immer gut drauf. Wer Happy begegnete, konnte nicht anders als zu lächeln. Der Name blieb hängen. In den Köpfen. In den Herzen. Ganz ohne es zu wissen, hatte er der Familie ein Geschenk hinterlassen — einen Namen, der noch gebraucht werden würde.</p>
+    </div>
+
+    <p>Nach ein paar wunderschönen Wochen packte die Familie ihre Koffer und fuhr nach Hause. Das Leben wartete. Die Schule fing wieder an. Der Alltag kehrte zurück.</p>
+
+    <p>Was die Familie nicht wusste: Das Schönste stand ihnen noch bevor.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Kapitel 2: Der Zettel -->
+  <div class="chapter" id="ch2">
+    <span class="chapter-icon">📋</span>
+    <div class="chapter-label">Kapitel 2</div>
+    <div class="chapter-title">Der Zettel im Stiegenhaus</div>
+
+    <p class="dropcap">Es war ganz unspektakulär, wie es begann. Kein großes Drama. Kein geplanter Entschluss. Einfach ein Zettel — aufgehängt im Stiegenhaus, zwischen Briefkästen und Türklingeln.</p>
+
+    <div class="flyer-moment">
+      <div class="flyer-title">⚠️ Notfallkitten — Handaufzucht</div>
+      <p>Wurden gerettet von einem Bauernhof. Waren sehr angeschlagen. Schlecht ernährt, hatten Flöhe und eine schwere Augenentzündung. Wurden behandelt, entwurmt, entflöht. Fressen selbstständig. Suchen liebevolle Zuhause.</p>
+    </div>
+
+    <p>Daneben drei kleine Fotos. Drei kleine Katzenbabys, die das Leben schon früh von seiner raueren Seite kennengelernt hatten. Gefunden auf einem Bauernhof. Ausgesetzt. Krank. Aber gerettet — von Menschen, die nicht weggeschaut hatten.</p>
+
+    <p>Mama sah den Zettel. Sah die Fotos. Und eines dieser Fotos ließ sie einfach nicht mehr los.</p>
+
+    <div class="box-teal">
+      Nummer 2. Ein kleines Tiger-Weiß Kätzchen. Ein Bub, ungefähr sieben Wochen alt. Er sah direkt in die Kamera — mit diesen Augen, die gleichzeitig neugierig und ein bisschen verloren wirkten. Als würde er sagen: „Hallo. Ich warte hier."
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Kapitel 3: Die Entscheidung -->
+  <div class="chapter" id="ch3">
+    <span class="chapter-icon">💌</span>
+    <div class="chapter-label">Kapitel 3</div>
+    <div class="chapter-title">Die Nachricht, die alles veränderte</div>
+
+    <p class="dropcap">Die Nachricht war schnell geschrieben. Kurz, aber von Herzen. Ob man vorbeikommen und die Kitten besuchen dürfe? Die Antwort kam prompt: Ja. Natürlich.</p>
+
+    <p>Was dann folgte, war das schönste Chaos. Die Familie rüstete sich für ihr erstes Katzenbaby, als wäre eine kleine Königsperson im Anmarsch — was irgendwie auch stimmte.</p>
+
+    <div class="box-orange">
+      Lea staubsaugte die ganze Wohnung, bis jedes Staubkorn kapituliert hatte. Die Katzentoilette wurde mit militärischer Präzision aufgebaut und befüllt. Futter, Näpfe, ein kuscheliges Körbchen — alles stand bereit. Das Katzenbaby sollte ankommen wie ein Gast, dem man schon lange entgegengefiebert hatte.
+    </div>
+
+    <p>Max konnte nicht stillsitzen. Er lief durch die Wohnung, schaute alle paar Minuten auf die Uhr und fragte mindestens dreimal: „Wann fahren wir endlich?"</p>
+
+    <p>Papa lächelte still. Mama hatte das Foto noch einmal angeschaut. Und alle vier stiegen ins Auto — zu viert, wie immer bei den wichtigen Dingen im Leben.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Kapitel 4: Die Begegnung -->
+  <div class="chapter" id="ch4">
+    <span class="chapter-icon">🥹</span>
+    <div class="chapter-label">Kapitel 4</div>
+    <div class="chapter-title">Noch süßer als auf dem Foto</div>
+
+    <p class="dropcap">Als sie ankamen und das kleine grau-weiße Kätzchen zum ersten Mal in echt sahen, war es um alle geschehen. Sofort. Ohne Diskussion.</p>
+
+    <p>Das Foto hatte ihn schon süß aussehen lassen. Aber in echt? In echt war er noch süßer. Sein kleines Gesicht. Seine großen Augen. Dieses zarte grau-weiße Fell, das sich samtig anfühlte, wenn man ihn berührte.</p>
+
+    <div class="box-yellow">
+      Er kuschelte sich sofort an, als würde er sagen: „Ja. Ihr seid die Richtigen. Ich komme mit." Kein Zögern. Kein Verstecken. Einfach dieses warme, ruhige Vertrauen — als hätte er immer gewusst, dass diese Familie für ihn kommt.
+    </div>
+
+    <p>Lea konnte kaum aufhören, ihn zu streicheln. Max strahlte, ohne ein Wort zu sagen. Papa hielt ihn kurz in den Händen und war verloren. Und Mama? Mama wusste in genau diesem Moment: Er gehört zu uns.</p>
+
+    <p>Sie fuhren nach Hause. Das Kätzchen saß auf Mamas Schoß — klein, warm, schnurrend. Und während die Straße an ihnen vorbeizog, begann die Familie, sich eine ganz wichtige Frage zu stellen:</p>
+
+    <div class="box-teal">
+      „Wie sollen wir ihn nennen?"
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Kapitel 5: Der Name -->
+  <div class="chapter" id="ch5">
+    <span class="chapter-icon">✨</span>
+    <div class="chapter-label">Kapitel 5</div>
+    <div class="chapter-title">Ein Name, der wie gemacht war</div>
+
+    <p class="dropcap">Namen für Haustiere sind manchmal kompliziert. Man überlegt. Man verwirft. Man macht Listen. Man streitet sich freundlich darüber, wessen Vorschlag besser ist.</p>
+
+    <p>Diesmal war es anders.</p>
+
+    <p>Jemand erwähnte den Urlaub. Den Animateur. Den Mann, der jeden Abend alle zum Strahlen gebracht hatte — einfach weil er so voller Freude war, so voller Wärme, so voller Leben. Der Mann, der „Happy" hieß.</p>
+
+    <p>Und dann sahen alle auf das kleine Kätzchen auf Mamas Schoß — dieses kleine Wesen, das ihnen allen schon in wenigen Stunden so viel Glück geschenkt hatte. Das schon jetzt ihr Herz wärmer machte, als es je zuvor gewesen war.</p>
+
+    <div class="name-reveal">
+      <div class="label">Ab heute heißt er</div>
+      <div class="big-name">Happy</div>
+      <p>Weil er alle glücklich macht — einfach dadurch, dass er da ist. Weil kein anderer Name je so richtig geklungen hätte. Weil manche Namen einfach warten, bis der richtige für sie kommt.</p>
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Kapitel 6: Zuhause -->
+  <div class="chapter" id="ch6">
+    <span class="chapter-icon">🏠</span>
+    <div class="chapter-label">Kapitel 6</div>
+    <div class="chapter-title">Zuhause — von der ersten Sekunde an</div>
+
+    <p class="dropcap">Als Happy die Wohnung betrat, tat er das wie jemand, der nie woanders gelebt hatte. Er schnupperte kurz. Schaute sich um. Und dann — los.</p>
+
+    <p>Jede Ecke wurde inspiziert. Jedes Möbelstück beschnuppert. Jeder Teppich getestet. Happy erkundete sein neues Zuhause mit einer Neugier, die kein bisschen ängstlich war — als wäre er einfach endlich dort angekommen, wo er immer hätte sein sollen.</p>
+
+    <div class="box-green">
+      Abends, als die Familie zusammensaß und ein Spiel spielte — Karten auf dem Tisch, Lachen in der Luft — legte sich Happy einfach dazu. Mitten dazu. Als wäre das sein Platz. Als hätte er immer gewusst: Wenn die Menschen zusammen sind, bin ich dabei.
+    </div>
+
+    <p>Er schlief bei den Kindern. Er kuschelte auf Mamas Schoß. Er saß dabei, wenn Papa abends nach Hause kam. Er war einfach — da. Für alle. Immer.</p>
+
+    <div class="happy-card">
+      <span class="icon">🐱</span>
+      <div class="name">Happy</div>
+      <p style="font-style:italic; color:#4a6070; font-size:0.95rem; margin-top:8px; margin-bottom:12px;">Grau-weiß. Das Herzstück der Familie. Der stille Tröster, der einfach spürt, wenn jemand ihn braucht — und immer zur Stelle ist.</p>
+      <div class="traits">
+        <span class="trait-pill">💙 herzlich</span>
+        <span class="trait-pill">🤗 verschmust</span>
+        <span class="trait-pill">✨ neugierig</span>
+        <span class="trait-pill">🏠 immer dabei</span>
+        <span class="trait-pill">💛 der Anfang von allem</span>
+      </div>
+    </div>
+
+    <p>Happy war das erste. Das Erste von etwas, das noch viel größer werden würde. Er legte den Grundstein für eine Familie, die nicht aufhören konnte, ihr Herz zu verschenken — an flauschige, vierbeige, schnurrende, miauende Wesen, die es genauso verdient hatten wie er.</p>
+
+    <p>Er wusste das natürlich nicht. Er lag einfach auf dem Sofa und schnurrte.</p>
+
+    <p>Aber manchmal sind die größten Anfänge genau so — leise, warm, und mit geschlossenen Augen auf einem gemütlichen Kissen.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Ende -->
+  <div class="chapter" id="ch7">
+    <div class="end-wrap">
+      <span class="big">🐱💙</span>
+      <h2>So begann alles.</h2>
+      <p>
+        Ein Zettel im Stiegenhaus.<br>
+        Ein kleines Katzenbaby, das auf einem Bauernhof gefunden wurde.<br>
+        Eine Familie, die hinsah — und sich entschied.
+      </p>
+      <p>
+        Happy kam als Erster.<br>
+        Aber er würde nicht alleine bleiben.<br>
+        Denn wo ein Herz so groß ist, ist immer Platz für mehr.
+      </p>
+      <div class="pawsome-tag">The<span>Pawsome</span>Four 💙</div>
+      <div class="band-one-note">
+        <p>🐾 &nbsp; Dies ist Teil 1 · Wie Balu, Tom & Heidi dazukamen — das erzählen Band 2 und Band 3.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const chapters = document.querySelectorAll('.chapter');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  chapters.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
