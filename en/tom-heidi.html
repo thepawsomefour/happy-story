@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tom & Heidi – Two Spaniards on a Big Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand:    #fdf8f0;
+    --terra:   #c2612a;
+    --terra-d: #9e4a1e;
+    --gold:    #e6a832;
+    --gold-l:  #f5c84a;
+    --sky:     #4a8fa8;
+    --sky-l:   #78b8cc;
+    --green:   #5a8a3c;
+    --text:    #2e2820;
+    --muted:   #7a6f66;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--sand); font-family: 'Lora', Georgia, serif; color: var(--text); }
+
+  .cover {
+    min-height: 100vh; position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px 24px; overflow: hidden;
+    background: linear-gradient(170deg, #1e4a5c 0%, #c2612a 58%, #e6a832 100%);
+  }
+  .cover::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 80%, rgba(230,168,50,0.4) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 15%, rgba(74,143,168,0.3) 0%, transparent 50%);
+  }
+
+  .sun {
+    position: absolute; top: -60px; right: -60px; width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230,168,50,0.5) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:0.6;} 50%{transform:scale(1.1);opacity:1;} }
+
+  .plane { position: absolute; font-size: 2.4rem; top: 18%; left: -80px; animation: fly 9s linear infinite; }
+  @keyframes fly {
+    0%{left:-80px;top:18%;opacity:0;} 10%{opacity:1;} 90%{opacity:1;} 100%{left:calc(100% + 80px);top:10%;opacity:0;}
+  }
+
+  .cover-content { position: relative; z-index: 2; text-align: center; max-width: 580px; }
+
+  .cat-duo { font-size: 70px; display: flex; gap: 16px; justify-content: center; margin-bottom: 14px; animation: float 3.5s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-13px);} }
+
+  .cover-badge {
+    display: inline-block; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px; padding: 5px 18px; font-family: 'Baloo 2', cursive; font-size: 0.73rem;
+    letter-spacing: 3px; color: rgba(255,255,255,0.85); text-transform: uppercase; margin-bottom: 18px;
+  }
+
+  .cover-title {
+    font-family: 'Baloo 2', cursive; font-weight: 800;
+    font-size: clamp(3rem, 9vw, 5.2rem); color: white;
+    line-height: 1.0; text-shadow: 0 6px 28px rgba(0,0,0,0.35); margin-bottom: 8px;
+  }
+  .cover-title .und { color: var(--gold-l); }
+
+  .cover-sub { font-family: 'Baloo 2', cursive; font-weight: 600; font-size: 1rem; color: rgba(255,255,255,0.7); letter-spacing: 2px; margin-bottom: 14px; }
+  .cover-tagline { font-style: italic; font-size: 1.08rem; color: rgba(255,255,255,0.88); line-height: 1.7; margin-bottom: 28px; }
+
+  .cover-series {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(0,0,0,0.25); border-radius: 30px; padding: 8px 20px;
+    color: var(--gold-l); font-family: 'Baloo 2', cursive; font-size: 0.8rem; letter-spacing: 1px;
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.45); font-family: 'Baloo 2', cursive;
+    font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(7px);} }
+
+  .story-wrap { max-width: 720px; margin: 0 auto; padding: 60px 28px 80px; }
+
+  .chapter { margin-bottom: 64px; opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .chapter.visible { opacity: 1; transform: translateY(0); }
+
+  .chapter-label { font-family: 'Baloo 2', cursive; font-weight: 600; font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase; color: var(--terra); margin-bottom: 6px; }
+  .chapter-icon { font-size: 2.2rem; display: block; margin-bottom: 10px; }
+  .chapter-title { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.75rem; color: var(--sky); margin-bottom: 22px; line-height: 1.2; }
+
+  p { font-size: 1.05rem; line-height: 1.9; margin-bottom: 18px; color: #3a3228; }
+  p:last-child { margin-bottom: 0; }
+
+  .char-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 28px 0; }
+  @media(max-width:480px){.char-cards{grid-template-columns:1fr;}}
+
+  .char-card { border-radius: 20px; padding: 22px 18px; text-align: center; }
+  .char-card.tom { background: linear-gradient(145deg,#f0f8ff,#d8eef7); border: 2px solid #a8d4e8; }
+  .char-card.heidi { background: linear-gradient(145deg,#fdf2e0,#f8e0bc); border: 2px solid #e8c080; }
+  .char-card .icon { font-size: 2.8rem; display: block; margin-bottom: 8px; }
+  .char-card .name { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.35rem; margin-bottom: 5px; }
+  .char-card.tom .name { color: var(--sky); }
+  .char-card.heidi .name { color: var(--terra); }
+  .char-card .desc { font-size: 0.88rem; line-height: 1.6; color: #666; font-style: italic; }
+
+  .box-sky { background: linear-gradient(135deg,#e8f4f8,#cde8f2); border-left: 4px solid var(--sky-l); border-radius: 0 14px 14px 0; padding: 18px 22px; margin: 26px 0; font-style: italic; font-size: 1.02rem; line-height: 1.8; color: #1e4a5c; }
+  .box-terra { background: linear-gradient(135deg,#fef4e8,#fde8cc); border-left: 4px solid var(--terra); border-radius: 0 14px 14px 0; padding: 18px 22px; margin: 26px 0; font-style: italic; font-size: 1.02rem; line-height: 1.8; color: #6b2e10; }
+  .box-gold { background: linear-gradient(135deg,#fffae8,#fdf0c0); border-left: 4px solid var(--gold); border-radius: 0 14px 14px 0; padding: 18px 22px; margin: 26px 0; font-style: italic; font-size: 1.02rem; line-height: 1.8; color: #5a4400; }
+  .box-green { background: linear-gradient(135deg,#eef6e8,#d8edcc); border-left: 4px solid var(--green); border-radius: 0 14px 14px 0; padding: 18px 22px; margin: 26px 0; font-style: italic; font-size: 1.02rem; line-height: 1.8; color: #2a4a18; }
+
+  .shelter-moment {
+    background: linear-gradient(135deg, #2a1e18 0%, #4a2e20 100%);
+    border-radius: 20px; padding: 32px 28px; margin: 32px 0; position: relative; overflow: hidden;
+  }
+  .shelter-moment::before { content: '🌡️'; position: absolute; font-size: 100px; opacity: 0.06; right: -10px; top: -10px; }
+  .shelter-moment p { color: rgba(255,255,255,0.88); font-style: italic; margin-bottom: 14px; line-height: 1.85; }
+  .shelter-moment p:last-child { margin-bottom: 0; }
+  .shelter-moment .shelter-title { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem; color: var(--gold-l); margin-bottom: 14px; font-style: normal; }
+
+  .hope-banner { background: linear-gradient(135deg, var(--green) 0%, #78a838 100%); border-radius: 20px; padding: 28px 26px; margin: 32px 0; text-align: center; }
+  .hope-banner p { color: white; font-style: italic; font-size: 1.1rem; line-height: 1.75; margin: 0; }
+  .hope-banner .hope-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+  .brr-fx { text-align: center; font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.8rem; color: var(--sky); margin: 20px 0; letter-spacing: 4px; }
+  .miau-fx { text-align: center; font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 2rem; color: var(--terra); margin: 20px 0; }
+
+  .divider { text-align: center; color: var(--gold); font-size: 1.3rem; margin: 40px 0; letter-spacing: 10px; opacity: 0.6; }
+
+  .dropcap::first-letter { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 3.8rem; float: left; line-height: 0.75; margin-right: 6px; margin-top: 6px; color: var(--terra); }
+
+  .four-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 32px 0; }
+  .four-card { border-radius: 16px; padding: 18px 14px; text-align: center; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .four-card .cat-icon { font-size: 2.4rem; display: block; margin-bottom: 6px; }
+  .four-card .cat-name { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem; margin-bottom: 4px; }
+  .four-card .cat-trait { font-size: 0.82rem; color: var(--muted); font-style: italic; line-height: 1.5; }
+  .four-card:nth-child(1){border-top:4px solid var(--sky);} .four-card:nth-child(1) .cat-name{color:var(--sky);}
+  .four-card:nth-child(2){border-top:4px solid var(--terra-d);} .four-card:nth-child(2) .cat-name{color:var(--terra-d);}
+  .four-card:nth-child(3){border-top:4px solid #78a838;} .four-card:nth-child(3) .cat-name{color:#5a8a3c;}
+  .four-card:nth-child(4){border-top:4px solid var(--gold);} .four-card:nth-child(4) .cat-name{color:#a87800;}
+
+  .end-wrap { background: linear-gradient(160deg,#1e4a5c 0%,#c2612a 70%,#e6a832 100%); border-radius: 28px; padding: 44px 32px; text-align: center; margin-top: 48px; position: relative; overflow: hidden; }
+  .end-wrap::before { content:'🐾'; position:absolute; font-size:140px; opacity:0.06; bottom:-20px; right:-20px; }
+  .end-wrap .big { font-size: 3.5rem; display: block; margin-bottom: 14px; }
+  .end-wrap h2 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.9rem; color: var(--gold-l); margin-bottom: 14px; }
+  .end-wrap p { color: rgba(255,255,255,0.88); max-width: 460px; margin: 0 auto 14px; font-style: italic; font-size: 1rem; line-height: 1.8; }
+
+  .pawsome-tag { display: inline-block; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 8px 24px; font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem; color: white; letter-spacing: 1px; margin-top: 10px; }
+  .pawsome-tag span { color: var(--gold-l); }
+
+  .adoption-note { background: rgba(255,255,255,0.12); border-radius: 14px; padding: 16px 20px; margin: 20px auto 0; max-width: 440px; }
+  .adoption-note p { font-size: 0.9rem; color: rgba(255,255,255,0.8); font-style: normal; margin: 0; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="sun"></div>
+  <div class="plane">✈️</div>
+  <div class="cover-content">
+    <div class="cat-duo">🐱🐱</div>
+    <div class="cover-badge">Book 3 · ThePawsomeFour</div>
+    <div class="cover-title">Tom <span class="und">&</span><br>Heidi</div>
+    <div class="cover-sub">Two Spaniards on a big journey</div>
+    <div class="cover-tagline">
+      Found in the heat of Spain.<br>
+      Rescued. Loved. Brought home.<br>
+      For ever.
+    </div>
+    <div class="cover-series">🐾 &nbsp; Part of the story of <strong>ThePawsomeFour</strong></div>
+  </div>
+  <div class="scroll-hint">▼ &nbsp; Read the story &nbsp; ▼</div>
+</div>
+
+<div class="story-wrap">
+
+  <div class="chapter" id="ch1">
+    <span class="chapter-icon">☀️</span>
+    <div class="chapter-label">Chapter 1</div>
+    <div class="chapter-title">Somewhere in Spain, under a merciless sun</div>
+
+    <p class="dropcap">It was hot. Really, truly hot. The kind of heat that makes the tarmac shimmer and sends even the lizards into the shade. In an abandoned garden, somewhere in Spain, two tiny cats were lying.</p>
+
+    <p>A white kitten. And one with a wild tortoiseshell pattern of gold, black and brown.</p>
+
+    <p>They were hungry. They were thirsty. And they were alone.</p>
+
+    <div class="shelter-moment">
+      <div class="shelter-title">☀️ A tough start</div>
+      <p>Nobody knows exactly how they ended up there. But they had been found — exhausted, starving, weakened by the heat. Two tiny lives that urgently needed help.</p>
+      <p>Fortunately, there are people who pay attention. People who don't simply walk past. People who pick up two small cats in the Spanish heat and say: "You're safe now."</p>
+    </div>
+
+    <p>That was how Tom and Heidi came to the shelter. A Spanish animal shelter that cares for exactly these kinds of animals — the ones who have nobody. The ones who are found. The ones who deserve a second chance.</p>
+
+    <div class="hope-banner">
+      <span class="hope-icon">🏠</span>
+      <p>At the shelter they received food, water, and care. And the hope of something that was still to come: a real home.</p>
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch2">
+    <span class="chapter-icon">🐾</span>
+    <div class="chapter-label">Chapter 2</div>
+    <div class="chapter-title">Who exactly are these two?</div>
+
+    <p class="dropcap">At the shelter, it quickly became clear what kind of personalities had actually arrived. Tom — the white snowflake — was full of energy and curiosity despite everything he had been through. He explored every corner of his new room, sniffed at everything, and moved around with the strangest, most heart-warming sound in the world:</p>
+
+    <div class="brr-fx">"Brrr… Brrr… Brrr…"</div>
+
+    <p>As if he was humming himself some courage. As if he was saying: <em>Everything will be alright. I'm an adventurer. I've got this.</em></p>
+
+    <div class="char-cards">
+      <div class="char-card tom">
+        <span class="icon">🤍</span>
+        <div class="name">Tom</div>
+        <div class="desc">White, brave & curious. Moves through life with his "Brrr Brrr" — and straight into everyone's heart.</div>
+      </div>
+      <div class="char-card heidi">
+        <span class="icon">🌟</span>
+        <div class="name">Heidi</div>
+        <div class="desc">Tortoiseshell princess. Cheeky, sweet & curious. Cuddles on her own terms — and when she does, your heart melts.</div>
+      </div>
+    </div>
+
+    <p>Heidi, on the other hand, made it absolutely clear from the start who she was. She was a princess — but one with a big heart and an incredible curiosity. The moment she had recovered, she wanted to explore everything, sniff everything, know everything. And when she liked someone, she could be so unbelievably sweet that you never wanted to stop looking at her. A queen who had temporarily found herself in difficult circumstances — but that was about to change. She settled onto the best available cushion and waited for the right people to come.</p>
+
+    <div class="box-terra">
+      Heidi only cuddled when she wanted to. Her high, clear miaow left no room for doubt when something displeased her. But when she liked someone — truly liked them — that was a gift to be treasured.
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch3">
+    <span class="chapter-icon">💛</span>
+    <div class="chapter-label">Chapter 3</div>
+    <div class="chapter-title">A family makes a decision</div>
+
+    <p class="dropcap">Far to the north, in a cosy home, a family of four sat together. Happy lay on Mum's lap purring. Balu was racing through the hallway. And the parents had that look — the one Lea and Max knew well by now.</p>
+
+    <div class="box-sky">
+      "There's a shelter in Spain," Mum said quietly. "And there are two cats there. They were found — outside, in the heat. They need a home." Dad looked at her. Then nodded, without another word.
+    </div>
+
+    <p>Lea immediately clapped her hands together. Max reached for his phone. Happy blinked sleepily. And Balu? Balu sat still for exactly four seconds — which for him was roughly an eternity.</p>
+
+    <p>The family adopted Tom and Heidi. From a Spanish animal shelter. Far away, in another country, under a different sun. But that didn't matter. Because a home isn't a place. A home is the people — and the animals — who are waiting for you there.</p>
+
+    <div class="box-green">
+      Adoption means: we didn't search for you because we knew you existed. We found you — and decided that you belong with us. For ever.
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch4">
+    <span class="chapter-icon">✈️</span>
+    <div class="chapter-label">Chapter 4</div>
+    <div class="chapter-title">The big flight home</div>
+
+    <p class="dropcap">All four of them went to the airport. Because a moment like this was too important to experience as anything less than a family.</p>
+
+    <p>Tom explored his carrier from the inside with the same energy he used to explore everything else. "Brrr… Brrr…" he hummed softly, pressing his nose against each new spot. An adventurer savouring his next adventure to the fullest.</p>
+
+    <p>Heidi took the situation with royal composure. She lay down, half-closed eyes, making her surroundings quite clear: <em>I acknowledge this inconvenience. Afterwards I require a soft cushion and warm sunshine.</em></p>
+
+    <p>And then the doors opened — and there they stood. Mum with the soft blanket. Dad with a beaming smile. Lea, who could barely contain herself. And Max, who was of course filming everything.</p>
+
+    <div class="box-gold">
+      Tom looked at them — these unfamiliar, friendly people — and said his first word to them. Not loudly. Not dramatically. Just quietly and warmly: "Brrr." As if to say: I think I like you.
+    </div>
+
+    <p>Heidi considered the situation briefly. Then she closed her eyes again. That was approval. For Heidi, that was a great deal.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch5">
+    <span class="chapter-icon">🏠</span>
+    <div class="chapter-label">Chapter 5</div>
+    <div class="chapter-title">Four cats. One home.</div>
+
+    <p class="dropcap">The new home smelled different from Spain. Cooler. Softer. And it smelled of two other cats — which both Tom and Heidi noticed immediately.</p>
+
+    <p>Happy sat in the middle of the living room, watching the newcomers with his calm eyes. He blinked slowly — the cat language for: <em>Welcome. You are safe here.</em></p>
+
+    <p>Balu approached with his usual energy. Direct. Loud.</p>
+
+    <div class="miau-fx">"MIAOW!"</div>
+
+    <p>Heidi raised her head, looked at Balu — and gave back such a delicate, such haughty, such perfectly measured little miaow that even Balu paused for a moment. Tom sniffed at everything, trotted through the hallway — "Brrr… Brrr…" — and had been everywhere three minutes later.</p>
+
+    <p>The first few days were a careful getting-to-know-you, a meeting on cat terms. But the family gave each of them their space and their time. And then, faster than anyone had expected, it simply worked.</p>
+
+    <div class="box-sky">
+      "They're like four puzzle pieces," Lea said one evening, as all four cats lay somewhere in the living room — not far apart, each in their own spot. "Completely different. And yet perfectly together."
+    </div>
+
+    <div class="four-grid">
+      <div class="four-card">
+        <span class="cat-icon">🐱</span>
+        <div class="cat-name">Happy</div>
+        <div class="cat-trait">Grey-and-white. The quiet comforter. Always there when you need him.</div>
+      </div>
+      <div class="four-card">
+        <span class="cat-icon">🐆</span>
+        <div class="cat-name">Balu</div>
+        <div class="cat-trait">The Bengal. Loud, fast & brave. Secretly a treasure.</div>
+      </div>
+      <div class="four-card">
+        <span class="cat-icon">🤍</span>
+        <div class="cat-name">Tom</div>
+        <div class="cat-trait">The white snowflake. Moves through life with his "Brrr Brrr".</div>
+      </div>
+      <div class="four-card">
+        <span class="cat-icon">🌟</span>
+        <div class="cat-name">Heidi</div>
+        <div class="cat-trait">The princess. Sweet, curious & gorgeous. On her terms.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch6">
+    <div class="end-wrap">
+      <span class="big">🐾🐾🐾🐾</span>
+      <h2>Four paws. One family.</h2>
+      <p>
+        Tom and Heidi were once two tiny cats,<br>
+        alone in the heat of Spain — without food, without water,<br>
+        without knowing what would come next.
+      </p>
+      <p>
+        Today they sleep on soft cushions.<br>
+        They are loved, cuddled, and spoiled.<br>
+        And they come home every day.
+      </p>
+      <p>
+        Because a family decided: <em>You belong with us.</em>
+      </p>
+      <div class="pawsome-tag">The<span>Pawsome</span>Four 💙</div>
+      <div class="adoption-note">
+        <p>🐾 &nbsp; If you'd like to welcome an animal into your life — visit your local shelter. There are many Toms and Heidis waiting for their home.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const chapters = document.querySelectorAll('.chapter');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  chapters.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
