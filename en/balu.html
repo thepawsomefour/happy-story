@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy & Balu – The Big Adventure</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ed;
+    --warm: #f5e6d0;
+    --orange: #e8833a;
+    --orange-dark: #c4622a;
+    --teal: #2e6070;
+    --teal-light: #5fa8b8;
+    --grey: #8a8fa8;
+    --text: #2e2a24;
+    --shadow: rgba(46,42,36,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Lora', Georgia, serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #1a3a4a 0%, #2e6070 45%, #e8833a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 70%, rgba(232,131,58,0.35) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(95,168,184,0.25) 0%, transparent 50%);
+  }
+
+  .stars { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; }
+  .star {
+    position: absolute; width: 3px; height: 3px;
+    background: white; border-radius: 50%; opacity: 0;
+    animation: twinkle 3s infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; } 50% { opacity: 0.8; }
+  }
+
+  .cover-content { position: relative; z-index: 2; text-align: center; max-width: 600px; }
+
+  .cat-emoji-pair {
+    font-size: 80px; margin-bottom: 16px;
+    display: flex; gap: 20px; justify-content: center; align-items: center;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  .cover-subtitle {
+    font-family: 'Baloo 2', cursive; font-weight: 600; font-size: 1rem;
+    color: rgba(255,255,255,0.7); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px;
+  }
+
+  .cover-title {
+    font-family: 'Baloo 2', cursive; font-weight: 800;
+    font-size: clamp(2.8rem, 8vw, 5rem); color: white;
+    line-height: 1.05; text-shadow: 0 4px 24px rgba(0,0,0,0.3); margin-bottom: 8px;
+  }
+  .cover-title span { color: #ffd580; }
+
+  .cover-tagline {
+    font-family: 'Lora', serif; font-style: italic; font-size: 1.15rem;
+    color: rgba(255,255,255,0.85); margin-top: 16px; line-height: 1.6;
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.5); font-family: 'Baloo 2', cursive;
+    font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  .story-wrap { max-width: 720px; margin: 0 auto; padding: 60px 28px 80px; }
+
+  .chapter {
+    margin-bottom: 64px; opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .chapter.visible { opacity: 1; transform: translateY(0); }
+
+  .chapter-label {
+    font-family: 'Baloo 2', cursive; font-weight: 600; font-size: 0.75rem;
+    letter-spacing: 4px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
+  }
+
+  .chapter-title {
+    font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.8rem;
+    color: var(--teal); margin-bottom: 24px; line-height: 1.2;
+  }
+
+  .chapter-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+  p { font-size: 1.05rem; line-height: 1.9; margin-bottom: 18px; color: #3a3530; }
+  p:last-child { margin-bottom: 0; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, #e8f4f7 0%, #d0eaf0 100%);
+    border-left: 4px solid var(--teal-light);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px; margin: 28px 0;
+    font-style: italic; font-size: 1.05rem; line-height: 1.8; color: #2a5060;
+  }
+
+  .orange-box {
+    background: linear-gradient(135deg, #fef3e7 0%, #fde8cc 100%);
+    border-left: 4px solid var(--orange);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px; margin: 28px 0;
+    font-style: italic; font-size: 1.05rem; line-height: 1.8; color: #6b3010;
+  }
+
+  .divider { text-align: center; color: var(--orange); font-size: 1.4rem; margin: 40px 0; letter-spacing: 12px; }
+
+  .char-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0; }
+  @media (max-width: 480px) { .char-cards { grid-template-columns: 1fr; } }
+
+  .char-card { border-radius: 20px; padding: 24px 20px; text-align: center; }
+  .char-card.happy { background: linear-gradient(145deg, #e8f4f7, #cde8ef); border: 2px solid #a8d8e3; }
+  .char-card.balu { background: linear-gradient(145deg, #fef0e0, #fde2c0); border: 2px solid #f5c48a; }
+  .char-card .icon { font-size: 3rem; margin-bottom: 8px; display: block; }
+  .char-card .name { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.4rem; margin-bottom: 6px; }
+  .char-card.happy .name { color: var(--teal); }
+  .char-card.balu .name { color: var(--orange-dark); }
+  .char-card .desc { font-size: 0.9rem; line-height: 1.6; color: #555; font-style: italic; }
+
+  .end-section {
+    text-align: center; padding: 40px 20px;
+    background: linear-gradient(160deg, #1a3a4a, #2e6070);
+    border-radius: 28px; color: white; margin-top: 48px;
+  }
+  .end-section .big-emoji { font-size: 4rem; display: block; margin-bottom: 16px; }
+  .end-section h2 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 2rem; color: #ffd580; margin-bottom: 16px; }
+  .end-section p { color: rgba(255,255,255,0.85); max-width: 420px; margin: 0 auto; font-size: 1rem; font-style: italic; }
+  .paw-row { font-size: 1.6rem; letter-spacing: 6px; margin-top: 20px; opacity: 0.5; }
+
+  .dropcap::first-letter {
+    font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 3.8rem;
+    float: left; line-height: 0.75; margin-right: 6px; margin-top: 6px; color: var(--orange);
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="stars" id="stars"></div>
+  <div class="cover-content">
+    <div class="cat-emoji-pair">🐱🐆</div>
+    <div class="cover-subtitle">A story about friendship & family</div>
+    <div class="cover-title">Happy &<br><span>Balu</span></div>
+    <div class="cover-tagline">How a wild Bengal turned a family upside down —<br>and won their hearts in the process.</div>
+  </div>
+  <div class="scroll-hint">▼ &nbsp; Read the story &nbsp; ▼</div>
+</div>
+
+<div class="story-wrap">
+
+  <div class="chapter" id="ch1">
+    <span class="chapter-icon">🏠</span>
+    <div class="chapter-label">Chapter 1</div>
+    <div class="chapter-title">A family and their grey-and-white wonder</div>
+
+    <p class="dropcap">In a cosy home lived a family of four. There was Dad, who headed off to work early in the morning and played with the kids in the evening as if the day had only just begun. Mum was often in the kitchen, where something always smelled delicious, or she sat focused at her laptop — and on her lap? Happy, of course.</p>
+
+    <p>Happy was a grey-and-white cat with the softest fur in the world and a heart as big as a sofa. He could simply <em>feel</em> when someone was sad or tired — and would quietly creep over to nuzzle his head against that person until everything felt a little better.</p>
+
+    <div class="char-cards">
+      <div class="char-card happy">
+        <span class="icon">🐱</span>
+        <div class="name">Happy</div>
+        <div class="desc">Grey-and-white, fluffy & warm-hearted. The best comforter in the world — always there exactly when you need him.</div>
+      </div>
+      <div class="char-card balu">
+        <span class="icon">🐆</span>
+        <div class="name">Balu</div>
+        <div class="desc">Bengal cat, spotted & wild. Fast as lightning, loud as a little lion cub — and secretly a real treasure.</div>
+      </div>
+    </div>
+
+    <p>Lea, the daughter, loved Happy like her most precious treasure in the whole world. After school and after sports, the first thing she always did was scoop Happy up and hug him, cuddle him, kiss him — until he purred contentedly like a little engine. Her younger brother Max, who planted himself in front of his screen and dreamed of one day being a famous YouTuber, loved Happy too of course — but showed it in his own way: a quick scratch behind the ear and a quiet "Hey, mate?" before getting back to his games.</p>
+
+    <div class="highlight-box">
+      "Happy wasn't simply a cat. Happy was a family member — with a permanent spot on the sofa, his own cushion, and the firm belief that he was the real boss of the house."
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch2">
+    <span class="chapter-icon">💡</span>
+    <div class="chapter-label">Chapter 2</div>
+    <div class="chapter-title">A plan is hatched</div>
+
+    <p class="dropcap">One evening, Mum and Dad sat together on the sofa — Happy lying between them as always, purring loudly — when Dad got a thoughtful look on his face.</p>
+
+    <p>"You know," he said quietly, scratching Happy behind the ears, "Happy is alone all day when we're all out. The kids at school, us at work… that must be lonely."</p>
+
+    <p>Mum nodded. She'd had the same thought for a while. "He needs someone. A friend. A playmate."</p>
+
+    <p>Dad's eyes began to light up. "I've always had a dream…" He paused dramatically. "A Bengal."</p>
+
+    <p>Mum rolled her eyes — but she was smiling. And Happy? Happy yawned once, stretched all four paws out, and simply went back to sleep. He had no idea what that would mean.</p>
+
+    <div class="orange-box">
+      A Bengal! That's no ordinary cat. That's an animal that looks like a small leopard — and sometimes behaves like one too. Wild, curious, loud. Very loud.
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch3">
+    <span class="chapter-icon">🚗</span>
+    <div class="chapter-label">Chapter 3</div>
+    <div class="chapter-title">Balu makes his grand entrance</div>
+
+    <p class="dropcap">A few weeks later, the whole family piled into the car. All four of them. Because a mission this important is only done together.</p>
+
+    <p>Lea pressed her hands to her knees and bounced with excitement. Max stared out of the window pretending to be completely relaxed — but his eyes were shining. Mum had already laid out the soft blanket, ready and waiting. And Dad? Dad was beaming like a little kid on his birthday.</p>
+
+    <p>When they arrived and saw the little spotted kitten, it was all over for everyone. Bengal kitten Balu looked up at them — with those big, bright eyes, that spotted coat like a mini leopard — and then announced his very first word in a loud voice:</p>
+
+    <div class="highlight-box">
+      "MIIIIAOOWWW!"
+    </div>
+
+    <p>So loud that everyone flinched. And then laughed. Balu had arrived.</p>
+
+    <p>The drive home was… educational. Balu was not the type to sit quietly in a carrier and watch the scenery. He commentated on the entire journey with a non-stop concert of miaow, mrrrp, miaow-miaow and yet more miaow. "He likes to talk," Max noted drily. "A lot," Lea added. Dad laughed. Mum held the carrier firmly.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch4">
+    <span class="chapter-icon">😾</span>
+    <div class="chapter-label">Chapter 4</div>
+    <div class="chapter-title">Happy is not impressed</div>
+
+    <p class="dropcap">Back home, there was a moment of silence. Happy sat in the middle of the living room, raised his little pink nose and sniffed. Then he saw the carrier. Then he smelled Balu.</p>
+
+    <p>His expression said everything: <em>"What. Is. THAT?"</em></p>
+
+    <p>When Balu carefully stepped out of the carrier, he paused briefly and looked at Happy. Happy looked at Balu. Balu opened his mouth and said — naturally — loudly: "Miaow!"</p>
+
+    <p>Happy withdrew with great dignity to his favourite spot, the top shelf of the cat tree, and looked down at the newcomer from above. As if to say: "I am the boss here. That has always been the case. That will always be the case."</p>
+
+    <div class="orange-box">
+      Balu, meanwhile, seemed not to notice Happy's royal gesture at all. He immediately spotted his beloved spiral spring toy on the floor, shot towards it at lightning speed — and was somewhere completely different three seconds later.
+    </div>
+
+    <p>The first few days were bumpy. Happy occasionally hissed. Balu ran through the flat too fast and too boisterously. But the family gave both of them their time. Mum made sure Happy had his peaceful spot. Dad distracted Balu with toys. Lea talked gently to Happy: "He's new here, Happy. Be kind." And Max secretly filmed the funniest moments for his YouTube channel.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch5">
+    <span class="chapter-icon">🐾</span>
+    <div class="chapter-label">Chapter 5</div>
+    <div class="chapter-title">Two cats, one family</div>
+
+    <p class="dropcap">And then, one morning — nobody can quite remember when it happened — Happy and Balu were lying on the sofa together. Not far apart. Not quite cuddled up. But together.</p>
+
+    <p>Balu lay on his back, staring at the ceiling as if it were his personal enemy. Happy slept with his mouth slightly open, as he always did. And somehow it just fit. The quiet, warm-hearted Happy. The loud, wild Balu. Opposites that complemented each other.</p>
+
+    <p>Today the two of them are a team. When Balu races through the flat as if he's trying to break a world record, Happy rolls his eyes — but watches him. And when someone in the family has a bad day, Happy creeps over and settles down beside them. Sometimes Balu watches from a distance — and then comes and sits down too. Briefly. As long as nobody tries to cuddle him too much. Unless, of course, there's a treat in it for him.</p>
+
+    <div class="highlight-box">
+      "Cuddles? Only in exchange for payment," Balu's expression seemed to say, as he accepted his treat and briefly purred — before sprinting off again.
+    </div>
+
+    <p>Lea cuddled both of them as often as she could. Max filmed her doing it. Dad played with them on the floor in the evenings. And Mum? Mum now had two little babies on her lap — although Balu usually moved on after twenty seconds if no food was in sight.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="chapter" id="ch6">
+    <div class="end-section">
+      <span class="big-emoji">🐱🐆</span>
+      <h2>The end — or just the beginning?</h2>
+      <p>Happy finally had a friend. Balu finally had a family. And the house? The house was now officially richer by two paws, four eyes, and approximately a thousand miaows.</p>
+      <div class="paw-row">🐾 🐾 🐾 🐾 🐾</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;width:${Math.random()>0.7?4:2}px;height:${Math.random()>0.7?4:2}px`;
+    starsEl.appendChild(s);
+  }
+  const chapters = document.querySelectorAll('.chapter');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  chapters.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
