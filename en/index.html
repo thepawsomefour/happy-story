@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy – Where It All Began</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:   #fdf9f4;
+    --terra:   #c2612a;
+    --terra-d: #9e4a1e;
+    --gold:    #e6a832;
+    --gold-l:  #f5c84a;
+    --sky:     #4a8fa8;
+    --sky-l:   #78b8cc;
+    --green:   #4a8a5c;
+    --green-l: #d4edda;
+    --text:    #2e2820;
+    --muted:   #7a7068;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Lora', Georgia, serif;
+    color: var(--text);
+  }
+
+  /* ===== COVER ===== */
+  .cover {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    overflow: hidden;
+    background: linear-gradient(155deg, #0d2d3a 0%, #1e5c4a 35%, #2e8060 60%, #e8c040 100%);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 85%, rgba(232,192,64,0.45) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(95,168,184,0.3) 0%, transparent 50%);
+  }
+
+  .firefly {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: glow 3s ease-in-out infinite;
+  }
+  @keyframes glow {
+    0%,100%{opacity:0; transform:scale(1);}
+    50%{opacity:0.9; transform:scale(1.8);}
+  }
+
+  .cover-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 580px;
+  }
+
+  .cover-icon {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 14px;
+    animation: float 3.5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-14px);}
+  }
+
+  .cover-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 20px;
+    padding: 5px 18px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.82);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .cover-pretitle {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .cover-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: clamp(3.2rem, 10vw, 5.5rem);
+    color: white;
+    line-height: 1.0;
+    text-shadow: 0 6px 30px rgba(0,0,0,0.4);
+    margin-bottom: 10px;
+  }
+
+  .cover-title .sub {
+    display: block;
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  .cover-tagline {
+    font-style: italic;
+    font-size: 1.08rem;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.7;
+    margin: 16px 0 26px;
+  }
+
+  .cover-series {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: rgba(0,0,0,0.28);
+    border-radius: 30px;
+    padding: 8px 20px;
+    color: var(--gold);
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.8rem;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 26px; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.4);
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.73rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%,100%{transform:translateX(-50%) translateY(0);}
+    50%{transform:translateX(-50%) translateY(7px);}
+  }
+
+  /* ===== STORY ===== */
+  .story-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 28px 80px;
+  }
+
+  .chapter {
+    margin-bottom: 64px;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .chapter-label {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 6px;
+  }
+
+  .chapter-icon { font-size: 2.2rem; display:block; margin-bottom:10px; }
+
+  .chapter-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: var(--sky);
+    margin-bottom: 22px;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    margin-bottom: 18px;
+    color: #3a3228;
+  }
+  p:last-child { margin-bottom: 0; }
+
+  .dropcap::first-letter {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 3.8rem;
+    float: left;
+    line-height: 0.75;
+    margin-right: 6px;
+    margin-top: 6px;
+    color: var(--terra);
+  }
+
+  /* Italy banner */
+  .italy-banner {
+    background: linear-gradient(135deg, #1a4a3a 0%, #2e7a5a 50%, #3a9a70 100%);
+    border-radius: 20px;
+    padding: 30px 26px;
+    margin: 32px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .italy-banner::before {
+    content: '🇮🇹';
+    position: absolute;
+    font-size: 110px;
+    opacity: 0.07;
+    top: -15px; right: -10px;
+  }
+  .italy-banner p {
+    color: rgba(255,255,255,0.9);
+    font-style: italic;
+    font-size: 1.08rem;
+    line-height: 1.75;
+    position: relative; z-index:1;
+    margin: 0;
+  }
+  .italy-banner .banner-icon {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  /* Notice flyer */
+  .flyer-moment {
+    background: white;
+    border: 2px dashed #c8b89a;
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin: 28px 0;
+    position: relative;
+  }
+  .flyer-moment::before {
+    content: '📋';
+    position: absolute;
+    top: -18px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    background: var(--cream);
+    padding: 0 8px;
+  }
+  .flyer-moment .flyer-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--terra-d);
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .flyer-moment p {
+    font-size: 0.97rem;
+    color: #444;
+    line-height: 1.75;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Boxes */
+  .box-teal {
+    background: linear-gradient(135deg,#e8f4f8,#cde8f2);
+    border-left: 4px solid var(--sky-l);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #1e4a5c;
+  }
+  .box-orange {
+    background: linear-gradient(135deg,#fef4e8,#fde8cc);
+    border-left: 4px solid var(--terra);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #6b2e10;
+  }
+  .box-yellow {
+    background: linear-gradient(135deg,#fffae8,#fef2c0);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #5a4400;
+  }
+  .box-green {
+    background: linear-gradient(135deg,#eef6ee,#d4edda);
+    border-left: 4px solid var(--green);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 22px;
+    margin: 26px 0;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #1e4a28;
+  }
+
+  /* Name reveal */
+  .name-reveal {
+    text-align: center;
+    margin: 32px 0;
+    padding: 32px 20px;
+    background: linear-gradient(135deg, var(--sky) 0%, #1e4a5c 100%);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .name-reveal::before {
+    content: '✨';
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.07;
+    top: -20px; left: -10px;
+  }
+  .name-reveal .label {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: var(--sky-l);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .name-reveal .big-name {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 4rem;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+  }
+  .name-reveal p {
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+    font-size: 1rem;
+    max-width: 380px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Happy trait card */
+  .happy-card {
+    background: linear-gradient(145deg,#e8f4f8,#cce8f0);
+    border: 2px solid #a0d4e8;
+    border-radius: 20px;
+    padding: 26px 22px;
+    text-align: center;
+    margin: 28px 0;
+  }
+  .happy-card .icon { font-size: 3.5rem; display:block; margin-bottom:10px; }
+  .happy-card .name {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: var(--sky);
+    margin-bottom: 8px;
+  }
+  .happy-card .traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .trait-pill {
+    background: white;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.85rem;
+    color: var(--sky);
+    font-style: italic;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .divider {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.3rem;
+    margin: 40px 0;
+    letter-spacing: 10px;
+    opacity: 0.6;
+  }
+
+  /* End */
+  .end-wrap {
+    background: linear-gradient(155deg,#0d2d3a 0%,#1e5c4a 40%,#e8c040 100%);
+    border-radius: 28px;
+    padding: 44px 32px;
+    text-align: center;
+    margin-top: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .end-wrap::before {
+    content:'🐾';
+    position:absolute;
+    font-size:140px;
+    opacity:0.06;
+    bottom:-20px; right:-20px;
+  }
+  .end-wrap .big { font-size:3.5rem; display:block; margin-bottom:14px; }
+  .end-wrap h2 {
+    font-family:'Baloo 2', cursive;
+    font-weight:800;
+    font-size:1.9rem;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .end-wrap p {
+    color:rgba(255,255,255,0.88);
+    max-width:440px;
+    margin:0 auto 14px;
+    font-style:italic;
+    font-size:1rem;
+    line-height:1.8;
+  }
+  .pawsome-tag {
+    display:inline-block;
+    background:rgba(255,255,255,0.14);
+    border:2px solid rgba(255,255,255,0.28);
+    border-radius:30px;
+    padding:8px 24px;
+    font-family:'Baloo 2',cursive;
+    font-weight:800;
+    font-size:1.05rem;
+    color:white;
+    letter-spacing:1px;
+    margin-top:10px;
+  }
+  .pawsome-tag span { color:var(--gold); }
+
+  .band-note {
+    background: rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin: 18px auto 0;
+    max-width: 420px;
+  }
+  .band-note p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.75);
+    font-style: normal;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="firefly" style="top:20%;left:15%;animation-delay:0s;"></div>
+  <div class="firefly" style="top:60%;left:80%;animation-delay:1.2s;"></div>
+  <div class="firefly" style="top:35%;left:70%;animation-delay:0.6s;"></div>
+  <div class="firefly" style="top:75%;left:25%;animation-delay:2s;"></div>
+  <div class="firefly" style="top:15%;left:55%;animation-delay:1.8s;"></div>
+  <div class="firefly" style="top:50%;left:40%;animation-delay:0.3s;"></div>
+
+  <div class="cover-content">
+    <span class="cover-icon">🐱</span>
+    <div class="cover-badge">Book 1 · Where It All Began</div>
+    <div class="cover-pretitle">The story of</div>
+    <div class="cover-title">
+      Happy
+      <span class="sub">How everything started</span>
+    </div>
+    <div class="cover-tagline">
+      A notice on the staircase wall.<br>
+      A tiny kitten in a photo.<br>
+      And a family that knew instantly: <em>That's him.</em>
+    </div>
+    <div class="cover-series">🐾 &nbsp; Part 1 of the story of <strong>ThePawsomeFour</strong></div>
+  </div>
+  <div class="scroll-hint">▼ &nbsp; Read the story &nbsp; ▼</div>
+</div>
+
+<!-- STORY -->
+<div class="story-wrap">
+
+  <!-- Chapter 1 -->
+  <div class="chapter" id="ch1">
+    <span class="chapter-icon">🇮🇹</span>
+    <div class="chapter-label">Chapter 1</div>
+    <div class="chapter-title">A holiday, a name, and a feeling</div>
+
+    <p class="dropcap">It was a warm summer holiday in Italy. The family soaked up the sunshine, the food, the carefree feeling of being away — and every evening there was music, laughter, and an entertainer who made everyone smile. His name was Happy.</p>
+
+    <div class="italy-banner">
+      <span class="banner-icon">☀️</span>
+      <p>Not because that was his official name. But because he simply was that way — radiant, warm-hearted, always in good spirits. Everyone who met Happy couldn't help but smile. The name stuck. In their minds. In their hearts. Without knowing it, he had left the family a gift — a name that would one day be needed.</p>
+    </div>
+
+    <p>After a few beautiful weeks, the family packed their bags and headed home. Life was waiting. School was starting again. The everyday routine returned.</p>
+
+    <p>What the family didn't know: the most beautiful part was still ahead of them.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Chapter 2 -->
+  <div class="chapter" id="ch2">
+    <span class="chapter-icon">📋</span>
+    <div class="chapter-label">Chapter 2</div>
+    <div class="chapter-title">The notice on the wall</div>
+
+    <p class="dropcap">It started in the most unspectacular way. No big drama. No grand plan. Just a notice — pinned to the wall in the staircase, between letterboxes and doorbells.</p>
+
+    <div class="flyer-moment">
+      <div class="flyer-title">⚠️ Emergency Kittens — Hand-raised</div>
+      <p>Rescued from a farm. Found in very poor condition. Malnourished, had fleas and a severe eye infection. Treated with antibiotics, dewormed, defleaed. Now eating independently. Looking for loving homes.</p>
+    </div>
+
+    <p>Next to the text: three small photos. Three tiny kittens who had already seen the rougher side of life. Found on a farm. Abandoned. Sick. But rescued — by people who hadn't looked away.</p>
+
+    <p>Mum saw the notice. Saw the photos. And one of those photos simply wouldn't let her go.</p>
+
+    <div class="box-teal">
+      Number 2. A small grey-and-white tabby kitten. A little boy, around seven weeks old. He looked directly into the camera — with eyes that were curious and just a little lost at the same time. As if he was saying: "Hello. I'm waiting here."
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Chapter 3 -->
+  <div class="chapter" id="ch3">
+    <span class="chapter-icon">💌</span>
+    <div class="chapter-label">Chapter 3</div>
+    <div class="chapter-title">The message that changed everything</div>
+
+    <p class="dropcap">The message was written quickly. Short, but heartfelt. Could they come by and meet the kittens? The answer came promptly: Yes. Of course.</p>
+
+    <p>What followed was the most wonderful kind of chaos. The family prepared for their first kitten as if a little royal was on their way — which, in a way, was exactly right.</p>
+
+    <div class="box-orange">
+      Lea vacuumed the entire flat until every last speck of dust had surrendered. The litter tray was set up with military precision. Food, bowls, a cosy little bed — everything was ready. The kitten was going to arrive like a long-awaited guest.
+    </div>
+
+    <p>Max couldn't sit still. He wandered through the flat, checked the clock every few minutes, and asked at least three times: "When are we finally leaving?"</p>
+
+    <p>Dad smiled quietly. Mum had looked at the photo one more time. And all four of them got into the car — together, as always, for the important things in life.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Chapter 4 -->
+  <div class="chapter" id="ch4">
+    <span class="chapter-icon">🥹</span>
+    <div class="chapter-label">Chapter 4</div>
+    <div class="chapter-title">Even cuter than in the photo</div>
+
+    <p class="dropcap">When they arrived and saw the little grey-and-white kitten in real life for the first time, it was over for all of them. Immediately. Without discussion.</p>
+
+    <p>The photo had already made him look adorable. But in real life? In real life he was even cuter. His tiny face. His big eyes. That soft grey-and-white fur that felt like velvet when you touched him.</p>
+
+    <div class="box-yellow">
+      He snuggled up to them straight away, as if to say: "Yes. You're the right ones. I'm coming with you." No hesitation. No hiding. Just that warm, quiet trust — as if he had always known that this family was coming for him.
+    </div>
+
+    <p>Lea could barely stop stroking him. Max beamed without saying a word. Dad held him briefly in his hands and was lost. And Mum? Mum knew in exactly that moment: he belongs with us.</p>
+
+    <p>They drove home. The kitten sat on Mum's lap — small, warm, purring. And as the road passed by outside, the family began to ask themselves a very important question:</p>
+
+    <div class="box-teal">
+      "What shall we call him?"
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Chapter 5 -->
+  <div class="chapter" id="ch5">
+    <span class="chapter-icon">✨</span>
+    <div class="chapter-label">Chapter 5</div>
+    <div class="chapter-title">A name that was simply meant to be</div>
+
+    <p class="dropcap">Naming a pet can sometimes be complicated. You think. You discard. You make lists. You argue gently about whose suggestion is better.</p>
+
+    <p>This time it was different.</p>
+
+    <p>Someone mentioned the holiday. The entertainer. The man who had made everyone shine every single evening — simply because he was so full of joy, so full of warmth, so full of life. The man whose name was Happy.</p>
+
+    <p>And then everyone looked at the tiny kitten on Mum's lap — this little creature who had already given them all so much happiness in just a few hours. Who had already made their hearts warmer than they had ever been before.</p>
+
+    <div class="name-reveal">
+      <div class="label">From this day forward, his name is</div>
+      <div class="big-name">Happy</div>
+      <p>Because he makes everyone happy — simply by being there. Because no other name would ever have sounded so right. Because some names just wait until the right one comes along.</p>
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Chapter 6 -->
+  <div class="chapter" id="ch6">
+    <span class="chapter-icon">🏠</span>
+    <div class="chapter-label">Chapter 6</div>
+    <div class="chapter-title">Home — from the very first second</div>
+
+    <p class="dropcap">When Happy entered the flat, he did so like someone who had never lived anywhere else. He sniffed briefly. Looked around. And then — off he went.</p>
+
+    <p>Every corner was inspected. Every piece of furniture sniffed. Every rug tested. Happy explored his new home with a curiosity that held not a trace of fear — as if he had simply finally arrived where he was always meant to be.</p>
+
+    <div class="box-green">
+      That evening, when the family sat together playing a board game — cards on the table, laughter in the air — Happy simply settled in with them. Right in the middle. As if that was his place. As if he had always known: when the people are together, I am there too.
+    </div>
+
+    <p>He slept with the children. He cuddled on Mum's lap. He sat nearby when Dad came home in the evenings. He was simply — there. For everyone. Always.</p>
+
+    <div class="happy-card">
+      <span class="icon">🐱</span>
+      <div class="name">Happy</div>
+      <p style="font-style:italic; color:#4a6070; font-size:0.95rem; margin-top:8px; margin-bottom:12px;">Grey-and-white. The heart of the family. The quiet comforter who simply feels when someone needs him — and is always right there.</p>
+      <div class="traits">
+        <span class="trait-pill">💙 warm-hearted</span>
+        <span class="trait-pill">🤗 cuddly</span>
+        <span class="trait-pill">✨ curious</span>
+        <span class="trait-pill">🏠 always there</span>
+        <span class="trait-pill">💛 where it all began</span>
+      </div>
+    </div>
+
+    <p>Happy was the first. The first of something that would grow into something much bigger. He laid the foundation for a family that couldn't stop giving their hearts away — to fluffy, four-pawed, purring, meowing creatures who deserved it just as much as he did.</p>
+
+    <p>He didn't know that, of course. He was simply lying on the sofa, purring.</p>
+
+    <p>But sometimes the greatest beginnings are exactly like that — quiet, warm, and with eyes closed on a cosy cushion.</p>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- End -->
+  <div class="chapter" id="ch7">
+    <div class="end-wrap">
+      <span class="big">🐱💙</span>
+      <h2>And so it all began.</h2>
+      <p>
+        A notice on the staircase wall.<br>
+        A tiny kitten found on a farm.<br>
+        A family that looked — and chose to say yes.
+      </p>
+      <p>
+        Happy came first.<br>
+        But he would not stay alone.<br>
+        Because where a heart is this big, there is always room for more.
+      </p>
+      <div class="pawsome-tag">The<span>Pawsome</span>Four 💙</div>
+      <div class="band-note">
+        <p>🐾 &nbsp; This is Book 1 · How Balu, Tom & Heidi joined the family — that story is told in Books 2 and 3.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const chapters = document.querySelectorAll('.chapter');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  chapters.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
